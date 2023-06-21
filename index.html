@@ -8,25 +8,106 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.21/dist/css/uikit.min.css" />
 </head>
 
-<body>
-  <div x-data="{ dts: [] }" x-init="fetch('https://laravelchoy.000webhostapp.com/api/data')
+<body onload="kuki()">
+  <div x-data="{ dts: [] }" x-init="fetch('http://1ms.my.id/api/data')
+
       .then(response => response.json())
       .then(data => dts = data)" class="uk-container">
+    <div class="uk-container">
+      <form>
+        <div class="uk-margin">
+          <label class="uk-form-label" for="form-stacked-text">Username</label>
+
+          <div class="uk-form-controls">
+            <input class="uk-input" id="username" type="text" placeholder="Some text..." disabled>
+          </div>
+        </div>
+        <div class="uk-margin">
+          <label class="uk-form-label" for="form-stacked-text">Caption</label>
+          <div class="uk-form-controls">
+            <input class="uk-input" id="caption" type="text" placeholder="Some text...">
+          </div>
+        </div>
+        <div class="uk-margin" uk-margin>
+          <div uk-form-custom="target: true">
+            <input type="file" aria-label="Custom controls" id="files">
+            <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file"
+              aria-label="Custom controls" disabled>
+          </div>
+          <button class="uk-button uk-button-default" id="submitBtn">Submit</button>
+        </div>
+      </form>
+    </div>
     <div class="uk-child-width-1-2@m uk-margin-medium-top uk-margin-medium-bottom" uk-grid>
       <template x-for="datax in dts">
         <div>
           <div class="uk-card uk-card-default">
             <div class="uk-card-media-top">
-              <img x-bind:src="datax.link" alt="">
+              <img x-bind:src="'http://1ms.my.id/storage/gambar/' + datax.link" alt="Gambar">
             </div>
             <div class="uk-card-body">
               <h3 class="uk-card-title" x-text="datax.username"></h3>
+              <p x-text="datax.caption"></p>
             </div>
           </div>
         </div>
       </template>
     </div>
   </div>
+  <script src="
+https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
+"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+  <script>
+    function kuki() {
+      $(document).ready(function () {
+        if (Cookies.get("user")) {
+          var kuki = Cookies.get('user');
+          $("#username").val(kuki);
+        } else {
+          UIkit.modal.prompt('Name:', 'Your name').then(function (name) {
+            Cookies.set('user', name, {expires: 30});
+            var kuki = Cookies.get('user');
+            $("#username").val(kuki);
+          });
+
+        }
+      })
+    }
+    $(document).ready(function () {
+      $("#submitBtn").click(function (e) {
+        e.preventDefault();
+        var username = $('#username').val();
+        var caption = $('#caption').val();
+        var linkg = $('#files')[0].files[0];
+        var postData = new FormData();
+        postData.append('link', linkg);
+        postData.append('username', username);
+        postData.append('caption', caption);
+
+        $.ajax({
+          url: "http://1ms.my.id/api/data",
+          type: "POST",
+          data: postData,
+          contentType: false,
+          processData: false,
+          success: function (response) {
+            // Penanganan jika permintaan berhasil
+            console.log(response);
+            location.reload();
+          },
+          error: function (xhr, status, error) {
+            // Penanganan jika terjadi kesalahan
+            console.log(error);
+            alert("Terjadi kesalahan saat mengirim data.");
+          }
+        });
+      });
+    });
+
+
+
+  </script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.1/dist/cdn.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.21/dist/js/uikit.min.js"></script>
 </body>
