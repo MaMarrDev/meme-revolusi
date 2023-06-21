@@ -74,8 +74,8 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
           var kuki = Cookies.get('user');
           $("#username").val(kuki);
         } else {
-          UIkit.modal.prompt('Name:', 'Your name').then(function (name) {
-            Cookies.set('user', name, {expires: 30});
+          UIkit.modal.prompt('Username:', 'Your name').then(function (name) {
+            Cookies.set('user', name, {expires: 15});
             var kuki = Cookies.get('user');
             $("#username").val(kuki);
           });
