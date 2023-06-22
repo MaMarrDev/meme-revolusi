@@ -9,7 +9,7 @@
 </head>
 
 <body onload="kuki()">
-  <div x-data="{ dts: [] }" x-init="fetch('https://1ms.my.id/api/data')
+  <div x-data="{ dts: [] }" x-init="fetch('https://ditcoders.serv00.net/public/api/data')
 
       .then(response => response.json())
       .then(data => dts = data)" class="uk-container">
@@ -96,7 +96,7 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
         postData.append('caption', caption);
 
         $.ajax({
-          url: "https://1ms.my.id/api/data",
+          url: "https://ditcoders.serv00.net/public/api/data",
           type: "POST",
           data: postData,
           contentType: false,
