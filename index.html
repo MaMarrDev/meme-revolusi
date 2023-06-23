@@ -1,125 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="
+    styles.css"
+    />
+  </head>
 
-<head>
-  <title></title>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.16.21/dist/css/uikit.min.css" />
-</head>
+  <body onload="kuki()">
+    <div class="modal-container">
+      <!-- modal -->
+      <div class="modal-overlay">
+        <form class="modal">
+          <div class="modal-content">
+            <label for="userName">Username : </label>
+            <input id="userName" type="text" placeholder="Your Name" />
+          </div>
+          <hr />
+          <div class="modal-footer cf">
+            <button id="closeModal" type="submit">OK</button>
+          </div>
+        </form>
+      </div>
+      <!-- end modal -->
+    </div>
 
-<body onload="kuki()">
-  <div x-data="{ dts: [] }" x-init="fetch('https://ditcoders.serv00.net/public/api/data')
+    <div
+      class="container"
+      x-data="{ dts: [] }"
+      x-init="fetch('https://1ms.my.id/api/data')
 
       .then(response => response.json())
-      .then(data => dts = data)" class="uk-container">
-    <div class="uk-container">
-      <form>
-        <div class="uk-margin">
-          <label class="uk-form-label" for="form-stacked-text">Username</label>
+      .then(data => dts = data)"
+    >
+      <div class="upload-bsection"></div>
+      <div class="upload-section">
+        <form>
+          <div>
+            <label>Username : </label>
 
-          <div class="uk-form-controls">
-            <input class="uk-input" id="username" type="text" placeholder="Some text..." disabled>
+            <input id="username" type="text" placeholder="Your Name" disabled />
           </div>
-        </div>
-        <div class="uk-margin">
-          <label class="uk-form-label" for="form-stacked-text">Caption</label>
-          <div class="uk-form-controls">
-            <input class="uk-input" id="caption" type="text" placeholder="Some text...">
+          <div>
+            <label for="caption">Caption : </label>
+
+            <input
+              id="caption"
+              type="text"
+              placeholder="Some text..."
+              required
+            />
           </div>
-        </div>
-        <div class="uk-margin" uk-margin>
-          <div uk-form-custom="target: true">
-            <input type="file" aria-label="Custom controls" id="files">
-            <input class="uk-input uk-form-width-medium" type="text" placeholder="Select file"
-              aria-label="Custom controls" disabled>
+          <div>
+            <div>
+              <label for="files">Gambar : </label>
+              <input
+                type="file"
+                aria-label="Custom controls"
+                id="files"
+                required
+              />
+            </div>
+            <button id="submitBtn" class="upload-btn" type="submit">
+              Upload
+            </button>
           </div>
-          <button class="uk-button uk-button-default" id="submitBtn">Submit</button>
+        </form>
+      </div>
+      <div class="main">
+        <div class="note">
+          <p>Note :</p>
+          <ol>
+            <li>Ganti username bisa dilakukan dengan cara menghapus cookie.</li>
+            <li>Semua data harus di isi.</li>
+            <li>Halaman akan reload otomatis, tunggu saja :v</li>
+            <li>
+              Web ini masih dalam pengembangan, akan ada fitur menarik lainnya
+              di lain waktu
+            </li>
+          </ol>
         </div>
-      </form>
-    </div>
-    <div class="uk-container">
-      <p>Note : </p>
-      <ol>
-        <li>Ganti username bisa dilakukan dengan cara menghapus cookie.</li>
-        <li>Semua data harus di isi.</li>
-        <li>Halaman akan reload otomatis, tunggu saja :v</li>
-        <li>Web ini masih dalam pengembangan, akan ada fitur menarik lainnya di lain waktu</li>
-      </ol>
-    </div>
-    <div class="uk-child-width-1-2@m uk-margin-medium-top uk-margin-medium-bottom" uk-grid>
-      <template x-for="datax in dts">
+        <hr />
         <div>
-          <div class="uk-card uk-card-default">
-            <div class="uk-card-media-top">
-              <img x-bind:src="'https://ditcoders.serv00.net/public/storage/gambar/' + datax.link" alt="Gambar">
+          <template x-for="datax in dts">
+            <div>
+              <div class="card">
+                <div>
+                  <img
+                    x-bind:src="'https://1ms.my.id/storage/gambar/' + datax.link"
+                    alt="Gambar"
+                  />
+                </div>
+                <hr />
+                <div class="content">
+                  <h3 x-text="datax.username"></h3>
+                  <p x-text="datax.caption"></p>
+                </div>
+              </div>
             </div>
-            <div class="uk-card-body">
-              <h3 class="uk-card-title" x-text="datax.username"></h3>
-              <p x-text="datax.caption"></p>
-            </div>
-          </div>
+          </template>
         </div>
-      </template>
+      </div>
     </div>
-  </div>
-  <script src="
+    <script src="
 https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
 "></script>
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
-  <script>
-    function kuki() {
-      $(document).ready(function () {
-        if (Cookies.get("user") && Cookies.get("user").trim().length != 0 && Cookies.get("user") != "null") {
-          var kuki = Cookies.get('user');
-          $("#username").val(kuki);
-        } else {
-          UIkit.modal.prompt('Username:', 'Your name').then(function (name) {
-            Cookies.set('user', name, {expires: 15});
-            var kuki = Cookies.get('user');
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
+    <script>
+      const modalWindowOverlay = document.querySelector(".modal-overlay");
+      const body = document.querySelector("body");
+
+      function kuki() {
+        $(document).ready(function () {
+          if (
+            Cookies.get("user") &&
+            Cookies.get("user").trim().length != 0 &&
+            Cookies.get("user") != "null"
+          ) {
+            body.style.overflow = "auto";
+            $(".modal-container").remove();
+            var kuki = Cookies.get("user");
             $("#username").val(kuki);
-            location.reload();
-          });
-
-        }
-      })
-    }
-    $(document).ready(function () {
-      $("#submitBtn").click(function (e) {
-        e.preventDefault();
-        var username = $('#username').val();
-        var caption = $('#caption').val();
-        var linkg = $('#files')[0].files[0];
-        var postData = new FormData();
-        postData.append('link', linkg);
-        postData.append('username', username);
-        postData.append('caption', caption);
-
-        $.ajax({
-          url: "https://ditcoders.serv00.net/public/api/data",
-          type: "POST",
-          data: postData,
-          contentType: false,
-          processData: false,
-          success: function (response) {
-            // Penanganan jika permintaan berhasil
-            console.log(response);
-            location.reload();
-          },
-          error: function (xhr, status, error) {
-            // Penanganan jika terjadi kesalahan
-            console.log(error);
-            alert("Terjadi kesalahan saat mengirim data.");
+          } else {
+            $("#closeModal").click(function () {
+              var name = $("#userName").val();
+              Cookies.set("user", name, { expires: 15 });
+              var kuki = Cookies.get("user");
+              $("#username").val(kuki);
+              location.reload();
+            });
           }
         });
+      }
+      $(document).ready(function () {
+        $("#submitBtn").click(function (e) {
+          e.preventDefault();
+          var username = $("#username").val();
+          var caption = $("#caption").val();
+          var linkg = $("#files")[0].files[0];
+          var postData = new FormData();
+          postData.append("link", linkg);
+          postData.append("username", username);
+          postData.append("caption", caption);
+
+          $.ajax({
+            url: "https://1ms.my.id/api/data",
+            type: "POST",
+            data: postData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+              // Penanganan jika permintaan berhasil
+              console.log(response);
+              location.reload();
+            },
+            error: function (xhr, status, error) {
+              // Penanganan jika terjadi kesalahan
+              console.log(error);
+              alert("Terjadi kesalahan saat mengirim data.");
+            },
+          });
+        });
       });
-    });
-
-
-
-  </script>
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.1/dist/cdn.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.21/dist/js/uikit.min.js"></script>
-</body>
-
+    </script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.12.1/dist/cdn.min.js"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.16.21/dist/js/uikit.min.js"></script>
+  </body>
 </html>
