@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link
       rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css"
+      integrity="sha256-XoaMnoYC5TH6/+ihMEnospgm0J1PM/nioxbOUdnM8HY="
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
       href="
     styles.css"
     />
@@ -29,6 +35,35 @@
       <!-- end modal -->
     </div>
 
+    <div class="nav">
+      <div class="nav-content">
+        <div class="title">
+          <h1>Meme Revolusi</h1>
+        </div>
+        <div id="hamburgerMenu" class="hamburger-menu">
+          <i class="fa fa-bars" aria-hidden="true"></i>
+        </div>
+        <div class="menu">
+          <ul>
+            <li><a id="refresh">Refresh</a></li>
+            <li><a id="posting">Posting</a></li>
+          </ul>
+        </div>
+        <div class="settings">
+          <i class="fa fa-cog" aria-hidden="true"></i>
+        </div>
+      </div>
+    </div>
+    <div class="menu-hamburger">
+      <ul>
+        <li><a id="hamburgerPosting">Posting</a></li>
+        <!-- <hr />
+        <li><a>blm ada menu coy</a></li>
+        <hr />
+        <li><a>blm ada menu coy</a></li> -->
+      </ul>
+    </div>
+
     <div
       class="container"
       x-data="{ dts: [] }"
@@ -37,40 +72,8 @@
       .then(response => response.json())
       .then(data => dts = data)"
     >
-      <div class="upload-bsection"></div>
-      <div class="upload-section">
-        <form>
-          <div>
-            <label>Username : </label>
+      <div class="blank"></div>
 
-            <input id="username" type="text" placeholder="Your Name" disabled />
-          </div>
-          <div>
-            <label for="caption">Caption : </label>
-
-            <input
-              id="caption"
-              type="text"
-              placeholder="Some text..."
-              required
-            />
-          </div>
-          <div>
-            <div>
-              <label for="files">Gambar : </label>
-              <input
-                type="file"
-                aria-label="Custom controls"
-                id="files"
-                required
-              />
-            </div>
-            <button id="submitBtn" class="upload-btn" type="submit">
-              Upload
-            </button>
-          </div>
-        </form>
-      </div>
       <div class="main">
         <div class="note">
           <p>Note :</p>
@@ -104,6 +107,31 @@
             </div>
           </template>
         </div>
+      </div>
+      <div id="closeUploadDiv" class="close-upload-div"></div>
+      <div class="upload-section">
+        <form>
+          <div>
+            <label>Username : </label>
+
+            <input id="username" type="text" placeholder="Your Name" disabled />
+          </div>
+          <div>
+            <label for="caption">Caption : </label>
+
+            <input id="caption" type="text" placeholder="Some text..." />
+          </div>
+          <div>
+            <div>
+              <label for="files">Gambar : </label>
+              <input type="file" aria-label="Custom controls" id="files" />
+            </div>
+            <button id="submitBtn" class="upload-btn" type="submit">
+              Upload
+            </button>
+            <button id="cancelBtn" class="cancel-btn">Cancel</button>
+          </div>
+        </form>
       </div>
     </div>
     <script src="
@@ -165,6 +193,44 @@ https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js
             },
           });
         });
+      });
+
+      $("#refresh").click(function () {
+        location.reload();
+      });
+
+      const posting = document.getElementById("posting");
+      const upload = document.querySelector(".upload-section");
+      const closeUploadDiv = document.getElementById("closeUploadDiv");
+
+      posting.addEventListener("click", function () {
+        upload.classList.toggle("upload-trans");
+        closeUploadDiv.classList.toggle("close-upload-div-trans");
+      });
+
+      closeUploadDiv.addEventListener("click", function () {
+        upload.classList.toggle("upload-trans");
+        closeUploadDiv.classList.toggle("close-upload-div-trans");
+        upload.classList.toggle("upload-trans-hamburger");
+      });
+
+      const hamburgerMenu = document.getElementById("hamburgerMenu");
+      const menuHamburger = document.querySelector(".menu-hamburger");
+      hamburgerMenu.addEventListener("click", function () {
+        menuHamburger.classList.toggle("menu-hamburger-trans");
+      });
+
+      const hamburgerPostingBtn = document.getElementById("hamburgerPosting");
+      hamburgerPostingBtn.addEventListener("click", function () {
+        menuHamburger.classList.toggle("menu-hamburger-trans");
+        upload.classList.toggle("upload-trans-hamburger");
+        closeUploadDiv.classList.toggle("close-upload-div-trans");
+      });
+
+      const cancelBtn = document.getElementById("cancelBtn");
+      cancelBtn.addEventListener("click", function () {
+        upload.classList.toggle("upload-trans-hamburger");
+        closeUploadDiv.classList.toggle("close-upload-div-trans");
       });
     </script>
     <script
